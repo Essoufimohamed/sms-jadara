@@ -26,7 +26,7 @@ app.get("/", (req, res) => {
 // API routes
 app.use("/api", userRoutes);
 app.use("/api", courseRoutes);
-app.use("/api", groupRouter);
+app.use("/api/groups", groupRouter);
 app.use("/api", roleRoutes);
 
 // Connect to DB and start server

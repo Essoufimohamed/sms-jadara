@@ -9,10 +9,11 @@ import {
 
 const groupRouter = express.Router();
 
-groupRouter.post("/group", createGroup);
-groupRouter.get("/group", getAllGroups);
-groupRouter.get("/group/:id", getGroupById);
-groupRouter.put("/group/:id", updateGroup);
-groupRouter.delete("/group/:id", deleteGroup);
+// CHANGE THESE PATHS
+groupRouter.post("/", createGroup);
+groupRouter.get("/", getAllGroups);        
+groupRouter.get("/:id", getGroupById);    
+groupRouter.put("/:id", updateGroup);     
+groupRouter.delete("/:id", deleteGroup);  
 
 export default groupRouter;
