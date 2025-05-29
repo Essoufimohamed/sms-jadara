@@ -1,9 +1,9 @@
-import type { Group } from "./groupsPage"; // Ensure this import is correct
+import type { Group } from "../features/layout/groupsPage"; 
 import { Button } from "@/components/ui/button";
 import { Pencil, Trash2 } from "lucide-react";
-
+//import editeBtn from "../assets/icons/pen.png"
 type Props = {
-  groups: Group[];
+  groups: Group[]; 
   loading: boolean;
   onDelete: (id: string) => void;
   onEdit: (group: Group) => void;
@@ -16,7 +16,7 @@ export default function GroupsList({
   onEdit,
 }: Props) {
   if (loading) return <p>Loading...</p>;
-  if (groups.length === 0) return <p>No groups available.</p>;
+  if (groups.length === 0) return <p>No groups available</p>;
 
   return (
     <div className="overflow-x-auto">
@@ -33,18 +33,10 @@ export default function GroupsList({
             <tr key={group._id} className="border-t">
 
               <td className="p-2">
-                {typeof group.user_id === 'object' && group.user_id !== null
-                  ? group.user_id.name || group.user_id.email 
-                  : group.user_id 
-                }
+                {group.user_id.username}
               </td>
               <td className="p-2">
-                {typeof group.course_id === 'object' && group.course_id !== null
-                  ? `${group.course_id.title} ${group.course_id.code ? `(${group.course_id.code})` : ''}`
-                  : group.course_id === null 
-                  ? "N/A"
-                  : group.course_id
-                }
+                { group.course_id.title}
               </td>
               <td className="p-2 flex space-x-2">
                 <Button
@@ -52,7 +44,7 @@ export default function GroupsList({
                   variant="outline"
                   onClick={() => onEdit(group)}
                 >
-                  <Pencil className="w-4 h-4" />
+                  <Pencil/>
                 </Button>
                 <Button
                   size="sm"

@@ -3,20 +3,19 @@ import  Course from "../model/Course.js"
 import User from "../model/User.js"
 
 export const createGroup = async  (req,res) => {
-     try {
+
+     try { 
           const {user_id , course_id } = req.body
           const user = await User.findById(user_id)
           const course = await Course.findById(course_id)
-
           if (!user || !course) {
                return  res.status(404).json({ message : "user or course are messing "})
           }
-
-          const newGroup = new  Group({user_id , course_id})
           const savedGroup = await  newGroup.save()
           res.status(201).json( savedGroup)
      } catch (err) {
           res.status(500).json({ message : err.message })
+
      }
 }
 
@@ -25,7 +24,7 @@ export const getAllGroups = async (req,res) => {
           const groups  = await Group.find()
           .populate({
                path : "user_id",
-               select : "email",
+               //select : "username",
           })
           .populate({
                path : "course_id",
@@ -42,11 +41,11 @@ export const getGroupById = async (req,res) => {
           const group = await Group.findById(req.params.id)
           .populate({
                path : "user_id",
-               select : "email",
+               //select : "email",
           })
           .populate({
                path : "course_id",
-               select : "title",
+               //select : "title",
           })
           if (!group) {
                return res.status(404).json({message : "couldn get group by id"})
@@ -75,11 +74,11 @@ export const updateGroup = async (req,res) => {
           )
           .populate({
                path : "user_id",
-               select : "email",
+               //select : "email",
           })
           .populate({
                path : "course_id",
-               select : "title",
+               //select : "title",
           })
 
           if (!updatedGroup) {
@@ -92,7 +91,7 @@ export const updateGroup = async (req,res) => {
      }
 }
 
-export const deleteGroup = async (req , res ) => {
+export const deleteGroup = async (req, res) => {
      try {
           const deletedGroup = await  Group.findByIdAndDelete(req.params.id)
 
@@ -105,3 +104,4 @@ export const deleteGroup = async (req , res ) => {
           res.status(500).json({message : err.message})
      }
 }
+

@@ -9,7 +9,6 @@ import {
 
 const groupRouter = express.Router();
 
-// CHANGE THESE PATHS
 groupRouter.post("/", createGroup);
 groupRouter.get("/", getAllGroups);        
 groupRouter.get("/:id", getGroupById);    

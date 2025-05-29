@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import GroupsFormate from "./groupsFormate";
-import GroupsList from "./groupsList";
+import GroupsFormate from "../../components/ui/groupsFormate";
+import GroupsList from "../../components/groupsList";
 import { toast } from "sonner";
 import axios from "axios";
 
-// Define the Group type based on your backend schema
+// Define the Group type based on  backend schema
 export type Group = {
   _id: string;
-  user_id: string; // Will store the ObjectId string
-  course_id: string; // Will store the ObjectId string
+  user_id: string; // to store the ObjectId string
+  course_id: string; // to store the ObjectId string
 
   user?: { _id: string; name: string }; // Example: if user data is populated
   course?: { _id: string; title: string; code: string }; // Example: if course data is populated
@@ -21,7 +21,6 @@ export default function GroupsPage() {
 
   const fetchGroups = async () => {
     try {
-      // It's highly recommended that your backend populates user_id and course_id
       // to send back user/course details for display.
       const { data } = await axios.get("http://localhost:5000/api/groups");
       setGroups(data);
@@ -39,7 +38,7 @@ export default function GroupsPage() {
   const handleDeleteGroup = async (id: string) => {
     try {
       await axios.delete(`http://localhost:5000/api/groups/${id}`);
-      toast.success("Group deleted");
+      toast.success("Group deleted"); //toast is an object method that popeup  and it required to install npm i react-hot-toast
       fetchGroups();
     } catch (error: any) {
       const message =
@@ -48,7 +47,7 @@ export default function GroupsPage() {
         "Failed to delete group";
       toast.error(message);
     }
-  };
+  }
 
   const handleEditGroup = (group: Group) => {
     setSelectedGroup(group);

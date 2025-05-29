@@ -3,23 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import axios from "axios";
-import type { Group } from "./groupsPage";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; 
+import type { Group } from "../../features/layout/groupsPage";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 // Define types for User and Course for the dropdowns
 type UserOption = {
-  _id: string;
-  name: string;
+  _id: string
+  name: string
 };
 
 type CourseOption = {
-  _id: string;
-  title: string; 
+  _id: string
+  title: string 
 };
 
 type Props = {
-  onGroupCreated: () => void;
-  initialData?: Group | null;
+  onGroupCreated: () => void
+  initialData?: Group | null
 };
 
 export default function GroupsFormate({ onGroupCreated, initialData }: Props) {
@@ -28,8 +28,8 @@ export default function GroupsFormate({ onGroupCreated, initialData }: Props) {
     course_id: "",
   });
 
-  const [users, setUsers] = useState<UserOption[]>([]);
-  const [courses, setCourses] = useState<CourseOption[]>([]);
+  const [users, setUsers] = useState<UserOption[]>([])
+  const [courses, setCourses] = useState<CourseOption[]>([])
   const [loading, setLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(true); // For loading users/courses
 
@@ -70,7 +70,7 @@ export default function GroupsFormate({ onGroupCreated, initialData }: Props) {
   const handleSelectChange = (name: string, value: string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
+//to handle form submite
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -91,9 +91,9 @@ export default function GroupsFormate({ onGroupCreated, initialData }: Props) {
 
       onGroupCreated();
       setFormData({ user_id: "", course_id: "" });
-    } catch (error: any) {
+    } catch (err: any) {
       const errorMessage =
-        error.response?.data?.error || error.message || "Failed to save group";
+        err.response?.data?.error || err.message || "Failed to save group";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -112,7 +112,9 @@ export default function GroupsFormate({ onGroupCreated, initialData }: Props) {
         {isEditing ? "Edit Group" : "Create New Group"}
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+
         <div>
+
           <Label htmlFor="user_id">User</Label>
           <Select
             value={formData.user_id}
@@ -125,26 +127,29 @@ export default function GroupsFormate({ onGroupCreated, initialData }: Props) {
             <SelectContent>
               {users.map((user) => (
                 <SelectItem key={user._id} value={user._id}>
-                  {user.name}
+                  {user.username}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
+        
         <div>
+
           <Label htmlFor="course_id">Course</Label>
           <Select
             value={formData.course_id}
             onValueChange={(value) => handleSelectChange("course_id", value)}
             required
           >
+
             <SelectTrigger>
               <SelectValue placeholder="Select a course" />
             </SelectTrigger>
             <SelectContent>
               {courses.map((course) => (
                 <SelectItem key={course._id} value={course._id}>
-                  {course.title} ({course.code})
+                  {course.title} 
                 </SelectItem>
               ))}
             </SelectContent>
@@ -153,8 +158,8 @@ export default function GroupsFormate({ onGroupCreated, initialData }: Props) {
         <Button type="submit" disabled={loading} className="w-full">
           {loading
             ? isEditing
-              ? "Updating..."
-              : "Creating..."
+              ? "Update Group"
+              : "Create Group"
             : isEditing
             ? "Update Group"
             : "Create Group"}
