@@ -10,8 +10,9 @@ import {
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router";
 
 export function LoginForm({
@@ -30,12 +31,26 @@ export function LoginForm({
                 password,
             })
             .then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
+                const token = res.data.token;
+                localStorage.setItem("token", res.data.token);
+
+                const decoded = jwtDecode(token);
+                localStorage.setItem("userId", decoded.id); // store user ID
+
                 navigate("/dash-home");
+                // console.log(token);
             })
             .catch((error) => console.log(error.message));
     }
 
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate("/dash-home");
+        }
+    }, []);
+    //     const token = localStorage.getItem("accessToken");
+    //   return !!token;
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
             <Card>

@@ -2,11 +2,11 @@ import { Link } from "react-router";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
@@ -17,17 +17,17 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 
 export function RegisterForm({
-  className,
-  ...props
+    className,
+    ...props
 }: React.ComponentProps<"div">) {
-    const [username, setUsername] = useState();
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
-    const [success, setSuccess] = useState();
+    const [username, setUsername] = useState<string | undefined>();
+    const [email, setEmail] = useState<string | undefined>();
+    const [password, setPassword] = useState<string | undefined>();
+    const [success, setSuccess] = useState<boolean | undefined>();
     // const [passwordConferme, setPasswordConferme] = useState();
 
     const navigate = useNavigate();
-    function sendUser(e) {
+    function sendUser(e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
 
         axios
@@ -38,12 +38,11 @@ export function RegisterForm({
             })
             .then((res) => {
                 console.log(res.data);
-                setSuccess(res.data.statusText);
                 navigate("/login");
             })
             .catch((error) => {
-                console.log(error.response.data.message);
-                setSuccess(error.response.data.message);
+                console.log(error.data.message);
+                setSuccess(error.data.message);
             });
     }
 
@@ -57,7 +56,11 @@ export function RegisterForm({
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form onSubmit={sendUser}>
+                    <form
+                        onSubmit={() => {
+                            sendUser;
+                        }}
+                    >
                         <div className="grid gap-6">
                             <div className="grid gap-6">
                                 {success && (
@@ -105,7 +108,7 @@ export function RegisterForm({
                                         }
                                     />
                                 </div>
-                                
+
                                 <Button
                                     type="submit"
                                     className="w-full bg-cyan-900"
@@ -131,6 +134,6 @@ export function RegisterForm({
                 <a href="#">Terms of Service</a> and{" "}
                 <a href="#">Privacy Policy</a>.
             </div> */}
-    </div>
-  );
+        </div>
+    );
 }
