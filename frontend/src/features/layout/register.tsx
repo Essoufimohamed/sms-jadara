@@ -1,5 +1,5 @@
 import { RegisterForm } from "../../components/register-form";
-import logo from "../../assets/fondation-logo.png";
+// import logo from "../../assets/fondation-logo.png";
 import texturebg from "../../assets/texture.png";
 import { Link } from "react-router";
 
@@ -19,7 +19,11 @@ export default function RegisterPage() {
                     to="/"
                     className="flex items-center gap-2 self-center font-medium"
                 >
-                    <img src={logo} alt="" className="w-22" />
+                    <img
+                        src="public/souss_massa_tech-removebg-preview.png"
+                        alt="souss massa tech academy"
+                        className="w-25"
+                    />
                 </Link>
                 <RegisterForm />
             </div>

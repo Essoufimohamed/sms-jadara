@@ -8,12 +8,16 @@ export default function UpdateUserForm() {
     const [updateEmail, setupdateEmail] = useState("");
     const [updatename, setupdatename] = useState("");
 
+    const token = localStorage.getItem("token");
     const { id } = useParams();
     const navigate = useNavigate();
-
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/api/users/${id}/role`)
+            .get(`http://localhost:5000/api/users/${id}/role`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((response) => {
                 setupdateEmail(response.data.email);
                 setupdatename(response.data.username);
@@ -24,10 +28,18 @@ export default function UpdateUserForm() {
     function update(e) {
         e.preventDefault();
         axios
-            .put(`http://localhost:5000/api/users/${id}`, {
-                email: updateEmail,
-                username: updatename,
-            })
+            .put(
+                `http://localhost:5000/api/users/${id}`,
+                {
+                    email: updateEmail,
+                    username: updatename,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
             .then((response) => {
                 console.log(response);
                 navigate(-1);
@@ -48,7 +60,11 @@ export default function UpdateUserForm() {
                         <p>Username : {user.username} </p>
                     </div>
 
-                    <h3> New information :</h3> */}
+                     */}
+                    <h2 className="capitalize text-sky-900 text-xl font-bold py-2 mb-2">
+                        {" "}
+                        Update Information of user :
+                    </h2>
                     <Input
                         value={updatename}
                         onChange={(e) => setupdatename(e.target.value)}

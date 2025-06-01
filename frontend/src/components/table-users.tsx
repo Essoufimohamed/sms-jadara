@@ -2,42 +2,65 @@ import { useEffect, useState } from "react";
 import {
     Table,
     TableBody,
-    // TableCaption,
     TableCell,
     // TableFooter,
     TableHead,
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { UserRoundPen, Trash2 } from "lucide-react";
+import { UserRoundPen, Trash2, ShieldCheck, ShieldBan } from "lucide-react";
 
 import axios from "axios";
-// import updateicon from "../assets/icons/pen.png";
-// import deleteicon from "../assets/icons/delete.png";
+
 import usericon from "../assets/icons/user.png";
 import { Link } from "react-router";
 import DeleteConforme from "./delete-conforme";
+// import { DialogCloseButton } from "./dialog-conferme";
 
 export function TableUsers() {
-    const [users, setUsers] = useState([]);
+    type User = {
+        _id: string;
+        username: string;
+        email: string;
+        is_actif: boolean;
+        role: Role;
+    };
+    type Role = {
+        role_name: string;
+    };
+
+    const [users, setUsers] = useState<User[]>([]);
     const [popup, setPopup] = useState(false);
     const [deleteUserId, setDeleteUser] = useState("");
 
+    const token = localStorage.getItem("token");
+    console.log(users.length);
     function fechUsers() {
         axios
-            .get("http://localhost:5000/api/users/")
+            .get("http://localhost:5000/api/users/", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((data) => {
                 setUsers(data.data);
             })
             .catch((error) => error.message);
     }
+
     useEffect(() => {
         fechUsers();
     }, []);
+
     function handlDelete() {
         setPopup(true);
+
         axios
-            .delete(`http://localhost:5000/api/users/${deleteUserId}`)
+            .delete(`http://localhost:5000/api/users/${deleteUserId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
             .then((data) => {
                 data.data;
                 setPopup(false);
@@ -62,7 +85,7 @@ export function TableUsers() {
 
             <Table className="border-2 border-yellow-100 ">
                 <TableHeader className="capitalize">
-                    <TableRow style={{ backgroundColor: "#F7EF79" }}>
+                    <TableRow className="bg-yellow-100">
                         <TableHead className="w-[40px]"></TableHead>
                         <TableHead className="w-[140px]">Username</TableHead>
                         <TableHead>email</TableHead>
@@ -74,39 +97,37 @@ export function TableUsers() {
                 </TableHeader>
                 <TableBody>
                     {users.map((user) => {
-                        // if (user.role) {
-                        //     if (user.role.role_name == "admin") {
-                        //         console.log(user);
-                        //     }
-                        // }
-                        // && !(user.role.role_name == "admin")
                         return (
                             <>
-                                {user.is_actif == true ? (
+                                {!(user.role?.role_name == "admin") ? (
                                     <TableRow key={user._id}>
                                         <TableCell>
                                             <img src={usericon} alt="" />
                                         </TableCell>
-                                        <TableCell className="font-medium">
+                                        <TableCell className="font-medium capitalize">
                                             {user.username}
                                         </TableCell>
                                         <TableCell>{user.email}</TableCell>
-                                        <TableCell className="text-center">
-                                            {user.hasOwnProperty("role")
+                                        <TableCell>
+                                            {/* {user.hasOwnProperty("role")
                                                 ? "valide"
-                                                : "No-valide"}
+                                                : "No-valide"} */}
+                                            {user.is_actif == true ? (
+                                                <ShieldCheck color="green" />
+                                            ) : (
+                                                <ShieldBan color="red" />
+                                            )}
                                         </TableCell>
                                         <TableCell className="flex justify-center gap-3">
                                             <Link
                                                 to={`/dash-home/users/update/${user._id}`}
                                             >
-                                                
                                                 <UserRoundPen />
                                             </Link>
 
-                                            
+                                            {/* <DialogCloseButton id={user._id} /> */}
                                             <Trash2
-                                                className="text-red"
+                                                color="red"
                                                 onClick={() => {
                                                     setDeleteUser(
                                                         `${user._id}`

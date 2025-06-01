@@ -1,5 +1,4 @@
 import { LoginForm } from "../../components/login-form";
-import logo from "../../assets/fondation-logo.png";
 import texturebg from "../../assets/texture.png";
 import { Link } from "react-router";
 
@@ -19,7 +18,11 @@ export default function LoginPage() {
                     to="/"
                     className="flex items-center gap-2 self-center font-medium"
                 >
-                    <img src={logo} alt="" className="w-23" />
+                    <img
+                        src="public/souss_massa_tech-removebg-preview.png"
+                        alt=""
+                        className="w-25"
+                    />
                 </Link>
                 <LoginForm />
             </div>

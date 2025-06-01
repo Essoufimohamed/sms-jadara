@@ -1,5 +1,5 @@
 import { Menu } from "lucide-react";
-import logojadara from "../assets/logo-jadara.png";
+import logosmta from "/public/souss_massa_tech_logo.png";
 import {
     Accordion,
     AccordionContent,
@@ -37,7 +37,7 @@ interface Navbar1Props {
         url: string;
         src: string;
         alt: string;
-        title: string;
+        // title: string;
     };
     menu?: MenuItem[];
     auth?: {
@@ -54,10 +54,9 @@ interface Navbar1Props {
 
 const Navbar1 = ({
     logo = {
-        url: "https://www.shadcnblocks.com",
-        src: logojadara,
-        alt: "logo",
-        // title: "jadara",
+        url: "/",
+        src: logosmta,
+        alt: "touss massa tech academy",
     },
     menu = [
         { title: "Home", url: "/" },
@@ -86,12 +85,9 @@ const Navbar1 = ({
                     <Link to={logo.url} className="flex items-center gap-2">
                         <img
                             src={logo.src}
-                            className="max-h-8"
+                            className="max-h-10"
                             alt={logo.alt}
                         />
-                        <span className="text-lg font-semibold tracking-tighter">
-                            {logo.title}
-                        </span>
                     </Link>
                     <div className="flex items-center ">
                         <NavigationMenu>

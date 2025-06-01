@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CourseForm from "./CourseForm";
 import CourseTable from "./CourseTable";
-import { toast } from "sonner";
+import { toast } from "sonner"
 import axios from "axios";
 
 export type Course = {
